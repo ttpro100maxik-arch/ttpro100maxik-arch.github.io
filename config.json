@@ -4,19 +4,21 @@
   "site_description": "Личный блог Макса: что придумываю, чего хочу и что делаю.",
   "author": "Просто Максик",
   "language": "ru",
-
-  "dzen_verification_meta": "",
-  "verification_files": {},
-
-  "categories": ["native-yes"],
+  "dzen_verification_meta": "8ZAheVWUXVzGmb61ZXIvm2yTckBQQuNJtQE1zqgZwVt0anOvlxxgeeDpS9cgMxNT",
+  "verification_files": {
+    "zen_8ZAheVWUXVzGmb61ZXIvm2yTckBQQuNJtQE1zqgZwVt0anOvlxxgeeDpS9cgMxNT.html": "<html><head><meta name=\"zen-verification\" content=\"8ZAheVWUXVzGmb61ZXIvm2yTckBQQuNJtQE1zqgZwVt0anOvlxxgeeDpS9cgMxNT\" /></head><body></body></html>"
+  },
+  "categories": [
+    "native-yes"
+  ],
   "feed_days": 7,
   "feed_from": null,
   "exclude_ids": [],
-
-  "sources": ["../../content/*/дзен-*.md"],
+  "sources": [
+    "../../content/*/дзен-*.md"
+  ],
   "prefer_v2_images": true,
   "inner_image_caption": "Иллюстрация создана ИИ",
-
   "data_dir": "data",
   "output_dir": "docs"
 }
