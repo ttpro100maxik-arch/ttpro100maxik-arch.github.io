@@ -1,0 +1,46 @@
+# Выпуск статей по расписанию: 08:00 и 19:00 МСК (05:00 и 16:00 UTC).
+# render.py кладёт в docs/ только вышедшие статьи, validate.py проверяет ленту,
+# и только если ошибок нет — коммитит docs/. GitHub Pages раздаёт docs/.
+# GitHub может запускать cron с опозданием до ~30 минут — это нормально.
+name: release
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+    - cron: "0 16 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Render site and feed
+        run: python3 render.py
+
+      - name: Validate feed
+        run: python3 validate.py
+
+      - name: Commit docs/ if changed
+        run: |
+          git add -A docs
+          if git diff --cached --quiet; then
+            echo "Изменений нет"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "release: $(TZ=Europe/Moscow date '+%Y-%m-%d %H:%M') MSK"
+          git push
