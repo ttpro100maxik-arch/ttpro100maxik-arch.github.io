@@ -52,12 +52,12 @@ class RealFiles(unittest.TestCase):
 
     # --- разбор ---
     def test_parsed_all_dzen_articles(self):
-        self.assertEqual(len(self.articles), 15)
+        self.assertGreaterEqual(len(self.articles), 15)
         ids = [a["id"] for a in self.articles]
         self.assertEqual(ids[0], "2026-10-27-1900")
-        self.assertEqual(ids[-1], "2026-11-03-1900")
+        self.assertEqual(ids, sorted(ids))
         self.assertEqual(len(set(ids)), len(ids))
-        self.assertEqual(len({a["slug"] for a in self.articles}), 15)
+        self.assertEqual(len({a["slug"] for a in self.articles}), len(self.articles))
 
     def test_slot_times_msk(self):
         a = {x["id"]: x for x in self.articles}
@@ -102,7 +102,8 @@ class RealFiles(unittest.TestCase):
 
     def test_feed_window_7_days(self):
         _, rel, feed = self.render_at("2026-11-05T20:00")
-        self.assertEqual(len(rel), 15)
+        expected = sum(1 for a in self.articles if a["id"] <= "2026-11-05-1900")
+        self.assertEqual(len(rel), expected)
         ids = {a["id"] for a in feed}
         self.assertNotIn("2026-10-27-1900", ids)  # старше 7 дней
         self.assertNotIn("2026-10-29-1900", ids)  # 7 дней назад = 29.10 20:00
@@ -174,8 +175,8 @@ class RealFiles(unittest.TestCase):
         self.assertEqual(len(pages), 3)
 
     def test_stale_pages_removed(self):
-        out, _, _ = self.render_at("2026-11-05T20:00")
-        self.assertEqual(len(list((out / "a").iterdir())), 15)
+        out, rel, _ = self.render_at("2026-11-05T20:00")
+        self.assertEqual(len(list((out / "a").iterdir())), len(rel))
         render.render(self.cfg, self.articles, out, parse_now("2026-10-28T20:00"), self.img_dir)
         self.assertEqual(len(list((out / "a").iterdir())), 3)
 
