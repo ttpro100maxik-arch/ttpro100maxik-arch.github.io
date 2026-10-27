@@ -12,7 +12,7 @@
     "native-yes"
   ],
   "feed_days": 7,
-  "feed_from": null,
+  "feed_from": "2026-11-04T00:00",
   "exclude_ids": [],
   "sources": [
     "../../content/*/дзен-*.md"
