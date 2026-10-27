@@ -27,6 +27,8 @@ def make_cfg(tmp):
     cfg["sources"] = [str(CONTENT / "дзен-*.md")]
     cfg["data_dir"] = str(Path(tmp) / "data")
     cfg["base_url"] = BASE
+    cfg["feed_from"] = None  # тесты не зависят от боевого окна ленты
+    cfg["exclude_ids"] = []
     return cfg
 
 
